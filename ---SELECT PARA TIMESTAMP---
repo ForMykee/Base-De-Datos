@@ -1,0 +1,55 @@
+---SELECT PARA TIMESTAMP---
+
+Modificar un timestamp en una tabla:
+UPDATE date_example_2
+SET col_timestamp_w_tz = TO_TIMESTAMP_TZ('2023-09-25 16:25:32.0000000 -5:00', 'YYYY-MM-DD HH24:MI:SS.FF TZH:TZM')
+WHERE rowid = 'AAEo7hAABAAAB1LAAA';
+
+Mostrar el offset de zona horaria de un timestamp en una tabla:
+SELECT col_timestamp_w_tz,
+  EXTRACT(TIMEZONE_HOUR FROM col_timestamp_w_tz) tz_hour,
+  EXTRACT(TIMEZONE_MINUTE FROM col_timestamp_w_tz) tz_min
+FROM date_example_2;
+
+Extraer componentes de un timestamp:
+SELECT 
+  EXTRACT(YEAR FROM col_timestamp_w_tz) year,
+  EXTRACT(MONTH FROM col_timestamp_w_tz) month,
+  EXTRACT(DAY FROM col_timestamp_w_tz) day,
+  EXTRACT(HOUR FROM col_timestamp_w_tz) hour,
+  EXTRACT(MINUTE FROM col_timestamp_w_tz) min,
+  EXTRACT(SECOND FROM col_timestamp_w_tz) sec
+FROM date_example_2;
+
+Mostrar la diferencia entre dos timestamps:
+SELECT col_timestamp_w_tz,
+  (SYSTIMESTAMP - col_timestamp_w_tz) DAY(4) TO SECOND "Interval Day to Second"
+FROM date_example_2;
+
+Mostrar timestamps en formato UTC:
+SELECT sys_extract_utc(SYSTIMESTAMP) FROM DUAL;
+
+Obtener información de zonas horarias desde V$TIMEZONE_NAMES:
+SELECT TZNAME, TZABBREV FROM V$TIMEZONE_NAMES WHERE TZNAME LIKE '%Mexi%';
+
+REVISION DE CAMBIOS
+
+Consultar el log de transacciones:
+SELECT * FROM date_example_2 AS OF TIMESTAMP (TIMESTAMP '2023-12-19 12:00:00');
+
+Revisar las tablas de registro de cambios:
+SELECT * FROM dba_audit_trail WHERE timestamp >= TO_TIMESTAMP('2023-01-01', 'YYYY-MM-DD');
+
+Listar todas las tablas:
+SELECT table_name FROM all_tables;
+
+Mostrar los datos de una tabla específica:
+SELECT * FROM date_example_2;
+
+Obtener información de las columnas de una tabla:
+DESCRIBE date_example_2; -- En algunos sistemas, este comando puede variar.
+
+Consultar varias tablas:
+Ver contenido de vistas:
+SELECT * FROM nombre_de_la_vista;
+

@@ -1,0 +1,65 @@
+--- Modificaciones para timestamp---
+Modificaciones de fechas:
+-- Por ejemplo, sumar 3 días a la fecha
+UPDATE date_example_2
+SET col_timestamp_w_tz = col_timestamp_w_tz + INTERVAL '3' DAY;
+
+
+
+Operaciones con fechas:
+SELECT col_timestamp_w_tz - TIMESTAMP '2023-12-01 00:00:00' AS diferencia
+FROM date_example_2;
+
+
+Conversiones de fechas a cadenas de texto:
+SELECT TO_CHAR(col_timestamp_w_tz, 'DD-MON-YYYY HH:MI:SS') AS fecha_texto
+FROM date_example_2;
+
+
+Conversiones de cadenas de texto a fechas:
+SELECT TO_TIMESTAMP('2023-12-25 12:00:00', 'YYYY-MM-DD HH24:MI:SS') AS fecha_convertida
+FROM dual;
+
+
+Restar días a una fecha:
+-- Por ejemplo, restar 7 días a la fecha
+UPDATE date_example_2
+SET col_timestamp_w_tz = col_timestamp_w_tz - INTERVAL '7' DAY;
+
+Obtener la fecha y hora actual:
+SELECT SYSTIMESTAMP AS fecha_actual FROM dual;
+
+Obtener la diferencia de tiempo entre dos fechas:
+SELECT col_timestamp_w_tz - SYSTIMESTAMP AS diferencia_tiempo
+FROM date_example_2;
+
+Convertir TIMESTAMP a una cadena con un formato específico:
+SELECT TO_CHAR(col_timestamp_w_tz, 'DD/MM/YYYY HH24:MI:SS TZD') AS fecha_con_formato
+FROM date_example_2;
+
+Convertir una cadena de texto con formato a TIMESTAMP:
+SELECT TO_TIMESTAMP_TZ('2023-12-31 23:59:59 -05:00', 'YYYY-MM-DD HH24:MI:SS TZH:TZM') AS fecha_convertida
+FROM dual;
+
+Cambiar la zona horaria de una fecha:
+SELECT FROM_TZ(col_timestamp_w_tz, 'UTC') AT TIME ZONE 'America/New_York' AS fecha_con_nueva_zona
+FROM date_example_2;
+
+Obtener la fecha y hora en una zona horaria específica:
+SELECT FROM_TZ(col_timestamp_w_tz, 'UTC') AT TIME ZONE 'America/Los_Angeles' AS fecha_en_LA
+FROM date_example_2;
+
+Calcular la diferencia horaria entre dos zonas horarias:
+SELECT NEW_TIME(SYSTIMESTAMP, 'America/New_York', 'America/Los_Angeles') AS diferencia_horaria
+FROM dual;
+
+
+Conversiones de fechas con zonas horarias:
+Convertir a una zona horaria específica:
+SELECT SYS_EXTRACT_UTC(col_timestamp_w_tz) AS fecha_en_UTC
+FROM date_example_2;
+
+Obtener la hora actual en UTC:
+SELECT SYS_EXTRACT_UTC(SYSTIMESTAMP) AS hora_actual_en_UTC
+FROM dual;
+	

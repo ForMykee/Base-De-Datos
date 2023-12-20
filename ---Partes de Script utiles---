@@ -1,0 +1,203 @@
+---Partes de Script utiles---
+DROP TABLE STUDENT CASCADE CONSTRAINTS;
+
+---Formato para las columnas---
+set colsep ' ||'
+set linesize 250
+set pagesize 99
+rem spool 
+COL ADDRESS FORMAT A25;
+
+---cambio de idioma---
+alter session set nls_date_language = 'SPANISH';
+
+
+---Formato de horas---
+SELECT PARAMETER, VALUE FROM NLS_SESSION_PARAMETERS ORDER BY 1;
+
+
+---Saber el formato en el que estan los dias---
+select parameter, value from nls_session_parameters where parameter = 'NLS_DATE_LANGUAGE' ;
+
+
+
+
+-- Obtener todos los estudiantes y sus departamentos principales
+SELECT s.STUDENT_ID, p.NOMBRE, s.MAJOR_DEPT
+FROM STUDENT s
+JOIN PERSON p ON s.SSN = p.SSN;
+
+---Consultas para TIMESTAMP----
+
+---SELECT PARA TIMESTAMP---
+
+Modificar un timestamp en una tabla:
+UPDATE date_example_2
+SET col_timestamp_w_tz = TO_TIMESTAMP_TZ('2023-09-25 16:25:32.0000000 -5:00', 'YYYY-MM-DD HH24:MI:SS.FF TZH:TZM')
+WHERE rowid = 'AAEo7hAABAAAB1LAAA';
+
+Mostrar el offset de zona horaria de un timestamp en una tabla:
+SELECT col_timestamp_w_tz,
+  EXTRACT(TIMEZONE_HOUR FROM col_timestamp_w_tz) tz_hour,
+  EXTRACT(TIMEZONE_MINUTE FROM col_timestamp_w_tz) tz_min
+FROM date_example_2;
+
+Extraer componentes de un timestamp:
+SELECT 
+  EXTRACT(YEAR FROM col_timestamp_w_tz) year,
+  EXTRACT(MONTH FROM col_timestamp_w_tz) month,
+  EXTRACT(DAY FROM col_timestamp_w_tz) day,
+  EXTRACT(HOUR FROM col_timestamp_w_tz) hour,
+  EXTRACT(MINUTE FROM col_timestamp_w_tz) min,
+  EXTRACT(SECOND FROM col_timestamp_w_tz) sec
+FROM date_example_2;
+
+Mostrar la diferencia entre dos timestamps:
+SELECT col_timestamp_w_tz,
+  (SYSTIMESTAMP - col_timestamp_w_tz) DAY(4) TO SECOND "Interval Day to Second"
+FROM date_example_2;
+
+Mostrar timestamps en formato UTC:
+SELECT sys_extract_utc(SYSTIMESTAMP) FROM DUAL;
+
+Obtener información de zonas horarias desde V$TIMEZONE_NAMES:
+SELECT TZNAME, TZABBREV FROM V$TIMEZONE_NAMES WHERE TZNAME LIKE '%Mexi%';
+
+REVISION DE CAMBIOS
+
+Consultar el log de transacciones:
+SELECT * FROM date_example_2 AS OF TIMESTAMP (TIMESTAMP '2023-12-19 12:00:00');
+
+Revisar las tablas de registro de cambios:
+SELECT * FROM dba_audit_trail WHERE timestamp >= TO_TIMESTAMP('2023-01-01', 'YYYY-MM-DD');
+
+Listar todas las tablas:
+SELECT table_name FROM all_tables;
+
+Mostrar los datos de una tabla específica:
+SELECT * FROM date_example_2;
+
+Obtener información de las columnas de una tabla:
+DESCRIBE date_example_2; -- En algunos sistemas, este comando puede variar.
+
+Consultar varias tablas:
+Ver contenido de vistas:
+SELECT * FROM nombre_de_la_vista;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---Consultas de Student--- 
+--- Consultas 
+SPOOL C:\Users\golom\OneDrive\Desktop\consultas.txt
+
+-- Obtener todos los datos de la tabla PERSON
+SELECT * FROM PERSON;
+SELECT * FROM EMPLOYEE;
+SELECT * FROM STUDENT;
+SELECT * FROM GRADUATE_STUDENT;
+SELECT * FROM UNDERGRADUATE_STUDENT;
+SELECT * FROM ALUMNUS;
+SELECT * FROM ASSISTANT;
+SELECT * FROM STAFF;
+SELECT * FROM FACULTY;
+SELECT * FROM RESEARCH_ASSISTANT;
+SELECT * FROM TEACHING_ASSISTANT;
+
+
+
+-- Obtener todos los estudiantes y sus departamentos principales
+SELECT s.STUDENT_ID, p.NOMBRE, s.MAJOR_DEPT
+FROM STUDENT s
+JOIN PERSON p ON s.SSN = p.SSN;
+
+-- Obtener los datos de los empleados y sus salarios
+SELECT e.EMPLOYEE_ID, p.NOMBRE, e.SALARY
+FROM EMPLOYEE e
+JOIN PERSON p ON e.SSN = p.SSN;
+
+-- Mostrar información sobre el personal de STAFF y sus roles
+SELECT st.STAFF_ID, p.NOMBRE, st.POSITION_WORKER
+FROM STAFF st
+JOIN PERSON p ON st.SSN = p.SSN;
+
+-- Recuperar información sobre los graduados y sus programas
+SELECT g.GRADUATE_STUDENT_ID, p.NOMBRE, g.DEGREE_PROGRAM
+FROM GRADUATE_STUDENT g
+JOIN PERSON p ON g.SSN = p.SSN;
+
+-- Obtener datos de los alumnos y sus títulos
+SELECT a.ALUMNUS_ID, p.NOMBRE, a.DEGREES
+FROM ALUMNUS a
+JOIN PERSON p ON a.SSN = p.SSN;
+
+-- Mostrar información sobre los asistentes y sus porcentajes de tiempo
+SELECT ast.ASSISTANT_ID, p.NOMBRE, ast.TYPE, ast.PERCENT_TIME
+FROM ASSISTANT ast
+JOIN PERSON p ON ast.SSN = p.SSN;
+
+-- Obtener datos de los asistentes de investigación y sus proyectos
+SELECT ra.RESEARCH_ASSISTANT_ID, p.NOMBRE, ra.PROJECTW
+FROM RESEARCH_ASSISTANT ra
+JOIN PERSON p ON ra.SSN = p.SSN;
+
+-- Obtener información sobre los asistentes docentes y los cursos que imparten
+SELECT ta.TEACHING_ASSISTANT_ID, p.NOMBRE, ta.COURSE
+FROM TEACHING_ASSISTANT ta
+JOIN PERSON p ON ta.SSN = p.SSN;
+
+-- Mostrar datos de la facultad y sus rangos
+SELECT f.FACULTY_ID, p.NOMBRE, f.RANK
+FROM FACULTY f
+JOIN PERSON p ON f.SSN = p.SSN;
+SPOOL OFF
+
+

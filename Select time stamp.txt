@@ -1,0 +1,61 @@
+Sumar días a una fecha y convertir a cadena de texto:
+SELECT TO_CHAR(col_timestamp_w_tz + INTERVAL '7' DAY, 'DD-MON-YYYY HH24:MI:SS') AS fecha_sumada
+FROM date_example_2;
+
+Restar horas a una fecha y mostrar como cadena de texto:
+SELECT TO_CHAR(col_timestamp_w_tz - INTERVAL '3' HOUR, 'DD-MON-YYYY HH24:MI:SS') AS fecha_resta_horas
+FROM date_example_2;
+
+Modificar la fecha y hora y mostrar en formato específico:
+SELECT TO_CHAR(col_timestamp_w_tz, 'DD/MM/YYYY HH24:MI:SS TZD') AS fecha_modificada
+FROM date_example_2
+WHERE ROWNUM = 1; -- Modificar la cláusula WHERE según necesites
+
+
+Convertir a formato específico:
+SELECT TO_CHAR(col_timestamp_w_tz, 'YYYY-MM-DD HH24:MI:SS TZD') AS fecha_texto_formato
+FROM date_example_2
+WHERE ROWNUM = 1; -- Modificar la cláusula WHERE según necesites
+
+
+Agregar días a una fecha y mostrar el resultado:
+SELECT TO_CHAR(col_timestamp_w_tz + INTERVAL '10' DAY, 'DD-MON-YYYY HH24:MI:SS') AS fecha_modificada
+FROM date_example_2;
+
+Restar horas a una fecha y visualizar como cadena de texto:
+SELECT TO_CHAR(col_timestamp_w_tz - INTERVAL '3' HOUR, 'DD-MON-YYYY HH24:MI:SS') AS fecha_resta_horas
+FROM date_example_2;
+
+
+Seleccionar fechas dentro de un rango específico:
+SELECT col_timestamp_w_tz
+FROM date_example_2
+WHERE col_timestamp_w_tz BETWEEN TIMESTAMP '2023-01-01 00:00:00' AND TIMESTAMP '2023-01-07 23:59:59';
+
+Obtener la fecha y hora actual:
+SELECT TO_CHAR(SYSTIMESTAMP, 'DD-MON-YYYY HH24:MI:SS') AS fecha_actual
+FROM dual;
+
+Convertir a formato específico:
+SELECT TO_CHAR(col_timestamp_w_tz, 'YYYY-MM-DD HH24:MI:SS TZD') AS fecha_texto_formato
+FROM date_example_2
+WHERE ROWNUM = 1; -- Modificar la cláusula WHERE según necesites
+
+SELECT TO_CHAR(col_timestamp_w_tz, 'YYYY-MM-DD HH24:MI:SS TZD') AS fecha_texto_formato
+FROM date_example_2
+WHERE ROWNUM = 1; -- Modificar la cláusula WHERE según necesites
+
+Selección de registros para una fecha específica:
+SELECT *
+FROM date_example_2
+WHERE TRUNC(col_timestamp_w_tz) = DATE '2023-12-15';
+
+Modificación de registros para una fecha específica:
+UPDATE date_example_2
+SET col_timestamp_w_tz = TIMESTAMP '2023-12-15 10:00:00' 
+WHERE TRUNC(col_timestamp_w_tz) = DATE '2023-12-15';
+
+Cambiar el formato de las fechas en una consulta:
+SELECT TO_CHAR(col_timestamp_w_tz, 'DD/MM/YYYY HH:MI:SS AM') AS fecha_en_nuevo_formato
+FROM date_example_2;
+
